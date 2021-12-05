@@ -437,11 +437,20 @@ public class GraphicsDisplay extends JPanel {
         }
     	
        public void mouseDragged(MouseEvent ev) {
-    	   
+    	   double width = (double)ev.getX() - GraphicsDisplay.this.selectionRect.getX();
+           if (width < 5.0D) width = 5.0D;
+           double height = (double)ev.getY() - GraphicsDisplay.this.selectionRect.getY();
+           if (height < 5.0D) height = 5.0D;         
+           if(!zoomed) {
+	           GraphicsDisplay.this.selectionRect.setFrame(GraphicsDisplay.this.selectionRect.getX(), GraphicsDisplay.this.selectionRect.getY(), width, height);
+	           GraphicsDisplay.this.repaint();
+           }
        }
        
        public void mouseMoved(MouseEvent ev) {
-    	   
+    	   GraphicsDisplay.this.selectedMarker = GraphicsDisplay.this.findSelectedPoint(ev.getX(), ev.getY());
+           GraphicsDisplay.this.setCursor(Cursor.getPredefinedCursor(0));
+           GraphicsDisplay.this.repaint();
        }
     }
 }
