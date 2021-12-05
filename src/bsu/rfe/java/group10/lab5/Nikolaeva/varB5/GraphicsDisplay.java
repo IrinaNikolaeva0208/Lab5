@@ -396,17 +396,38 @@ public class GraphicsDisplay extends JPanel {
         }
     
         public void mouseClicked(MouseEvent ev) {
- 
+        	 if (ev.getButton() == 3) {
+                 if (GraphicsDisplay.this.undoHistory.size() > 0) {
+                     GraphicsDisplay.this.viewport = GraphicsDisplay.this.undoHistory.get(GraphicsDisplay.this.undoHistory.size() - 1);
+                     GraphicsDisplay.this.undoHistory.remove(GraphicsDisplay.this.undoHistory.size() - 1);
+                     zoomed = false;
+                     GraphicsDisplay.this.repaint();
+                 }
+             }
     	}
         
         public void mousePressed(MouseEvent ev) {
-        
+        	if (ev.getButton() == 1 && !zoomed) {
+                GraphicsDisplay.this.selectedMarker = GraphicsDisplay.this.findSelectedPoint(ev.getX(), ev.getY());
+                GraphicsDisplay.this.originalPoint = GraphicsDisplay.this.translatePointToXY(ev.getX(), ev.getY());
+                GraphicsDisplay.this.scaleMode = true;
+                GraphicsDisplay.this.setCursor(Cursor.getPredefinedCursor(5));
+                GraphicsDisplay.this.selectionRect.setFrame(ev.getX(), ev.getY(), 1.0D, 1.0D);
+            }
         }
     
         public void mouseReleased(MouseEvent ev) {
-        	
-        }
-        
+        	if (ev.getButton() == 1 && !zoomed) {
+            	zoomed = true;
+                GraphicsDisplay.this.setCursor(Cursor.getPredefinedCursor(0));
+                GraphicsDisplay.this.scaleMode = false;
+                double[] finalPoint = GraphicsDisplay.this.translatePointToXY(ev.getX(), ev.getY());
+                GraphicsDisplay.this.undoHistory.add(GraphicsDisplay.this.viewport);
+                GraphicsDisplay.this.viewport = new double[2][2];
+                GraphicsDisplay.this.zoomToRegion(GraphicsDisplay.this.originalPoint[0], GraphicsDisplay.this.originalPoint[1], finalPoint[0], finalPoint[1]);
+                GraphicsDisplay.this.repaint();
+            }
+        }      
     }
     
     public class MouseMotionHandler implements MouseMotionListener {
