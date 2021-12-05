@@ -7,6 +7,10 @@ import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.Paint;
 import java.awt.Stroke;
+import java.awt.Cursor;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseMotionListener;
 import java.awt.font.FontRenderContext;
 import java.awt.geom.GeneralPath;
 import java.awt.geom.Rectangle2D;
@@ -62,6 +66,8 @@ public class GraphicsDisplay extends JPanel {
         this.axisFont = new Font("Serif", 1, 36);
         this.labelsFont = new Font("Serif", 0, 10);
         extremesFont = new Font("Serif", Font.ITALIC, 10);
+        this.addMouseMotionListener(new GraphicsDisplay.MouseMotionHandler());
+        this.addMouseListener(new GraphicsDisplay.MouseHandler());
     }
 
     public void showGraphics(ArrayList<Double[]> graphicsData) {
@@ -381,6 +387,41 @@ public class GraphicsDisplay extends JPanel {
             }
             return -1;
         }
+    }
+    
+    public class MouseHandler extends MouseAdapter {
+    
+    	public MouseHandler() {
+    		 
+        }
+    
+        public void mouseClicked(MouseEvent ev) {
+ 
+    	}
+        
+        public void mousePressed(MouseEvent ev) {
+        
+        }
+    
+        public void mouseReleased(MouseEvent ev) {
+        	
+        }
+        
+    }
+    
+    public class MouseMotionHandler implements MouseMotionListener {
+
+    	public MouseMotionHandler() {
+    	       
+        }
+    	
+       public void mouseDragged(MouseEvent ev) {
+    	   
+       }
+       
+       public void mouseMoved(MouseEvent ev) {
+    	   
+       }
     }
 }
 
